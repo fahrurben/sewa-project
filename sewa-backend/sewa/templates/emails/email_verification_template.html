@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Email Verification</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px;">
+        <h1 style="color: #333333;">Hi, {{ full_name }}!</h1>
+        <p style="color: #666666; font-size: 16px; line-height: 1.5;">
+            Please verify your email by click the link bellow.
+            This action needed so you can access all features of sewa application
+        </p>
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ action_url }}" style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                Verify Email
+            </a>
+        </div>
+    </div>
+</body>
+</html>

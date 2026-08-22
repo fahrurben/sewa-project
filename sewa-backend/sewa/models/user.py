@@ -31,6 +31,7 @@ class BaseUserManager(BUM):
         birthday,
         province,
         city,
+        verification_code,
         role=UserRole.TENANT,
         is_verified=True,
         is_active=True,
@@ -49,6 +50,7 @@ class BaseUserManager(BUM):
             gender=gender,
             birthday=birthday,
             province=province,
+            verification_code=verification_code,
             city=city,
             role=role,
             is_verified=is_verified,
@@ -145,6 +147,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     province = models.CharField(max_length=5)
     city = models.CharField(max_length=5)
     is_verified = models.BooleanField()
+    verification_code = models.CharField(max_length=10, null=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = [
