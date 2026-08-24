@@ -25,6 +25,7 @@ def register(request, data: Dict[str, Any], role: UserRole) -> User:
 
     user = User.objects.create_user(
         email=data.get('email'),
+        password=data.get('password'),
         first_name=data.get('first_name'),
         last_name=data.get('last_name'),
         id_type=data.get('id_type'),
