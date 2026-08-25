@@ -56,7 +56,7 @@ class Migration(migrations.Migration):
             name='PropertyImage',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('filename', models.ImageField(upload_to=sewa.models.property.get_unique_file_path)),
+                ('filename', models.CharField(max_length=255)),
                 ('property', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='images', to='sewa.property')),
             ],
         ),

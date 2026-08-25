@@ -28,10 +28,11 @@ from rest_framework_simplejwt.views import (
 
 from sewa.views.email_verification_view import email_verification_view
 from sewa.views.register_view import register_view
-from sewa.views import AgreementTemplateView
+from sewa.views import AgreementTemplateView, PropertyView, ImageUploadView
 
 router = SimpleRouter(trailing_slash=False)
-router.register(r'agreement-templates', AgreementTemplateView, basename='agreement_template')
+router.register(r'agreement-templates', AgreementTemplateView, basename='agreement_templates')
+router.register(r'properties', PropertyView, basename='properties')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,6 +40,7 @@ urlpatterns = [
     path('api/register/<str:role>', register_view, name='register'),
     path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/media-upload', ImageUploadView.as_view(), name='media_upload'),
     path('api/', include(router.urls)),
 ]
 

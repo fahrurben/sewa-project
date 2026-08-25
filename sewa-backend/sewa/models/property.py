@@ -1,6 +1,4 @@
 from django.db import models
-import os
-import uuid
 
 from sewa.models import User, AgreementTemplate
 
@@ -34,7 +32,7 @@ class Property(models.Model):
     longitude = models.DecimalField(max_digits=11, decimal_places=8)
     latitude = models.DecimalField(max_digits=10, decimal_places=8)
     type = models.CharField(max_length=5, choices=PropertyType.choices, default=PropertyType.HOUSE)
-    furnishing_type = models.CharField(max_length=5, choices=PropertyType.choices, default=PropertyType.HOUSE)
+    furnishing_type = models.CharField(max_length=5, choices=FurnishingType.choices, default=PropertyType.HOUSE)
     land_area = models.IntegerField()
     building_area = models.IntegerField()
     total_rooms = models.IntegerField()
@@ -50,21 +48,11 @@ class Property(models.Model):
     def __str__(self):
         return self.name
 
-def get_unique_file_path(instance, filename):
-    # Split the original filename to get its extension
-    ext = filename.split(".")[-1]
-
-    # Generate a unique filename using UUID4
-    unique_filename = f"{uuid.uuid4().hex}.{ext}"
-
-    # Return the full path relative to your MEDIA_ROOT folder
-    return os.path.join("signs/", unique_filename)
-
 class PropertyImage(models.Model):
     property = models.ForeignKey(
         Property, on_delete=models.CASCADE, related_name="images"
     )
-    filename = models.ImageField(upload_to=get_unique_file_path)
+    filename = models.CharField(max_length=255)
 
     def __str__(self):
         return f"{self.property.name} {self.filename}"

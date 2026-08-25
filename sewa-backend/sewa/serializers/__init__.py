@@ -1,1 +1,2 @@
 from .agreement_template_serializer import AgreementTemplateSerializer
+from .property_serializer import PropertySerializer
