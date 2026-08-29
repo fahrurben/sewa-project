@@ -51,6 +51,7 @@ class PropertySerializer(serializers.ModelSerializer):
             'deposit_amount',
             'agreement_template_id',
             'agreement_template',
+            'thumbnail',
             'images',
             'status',
         )

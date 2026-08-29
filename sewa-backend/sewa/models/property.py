@@ -41,6 +41,7 @@ class Property(models.Model):
     rental_cost = models.DecimalField(max_digits=10, decimal_places=2)
     is_deposit_required = models.BooleanField()
     deposit_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    thumbnail = models.CharField(max_length=255, null=True)
 
     agreement_template = models.ForeignKey(AgreementTemplate, on_delete=models.CASCADE)
     status = models.CharField(max_length=12, choices=PropertyStatus.choices, default=PropertyStatus.DRAFT)

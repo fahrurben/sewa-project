@@ -1,7 +1,8 @@
+from django.contrib.auth.models import Group
 from typing import Any, Dict
 import random
 import string
-from sewa.models.user import User, UserRole
+from sewa.models.user import User, UserRole, LANDLORD_GROUP_NAME
 import os
 from dotenv import load_dotenv
 
@@ -39,6 +40,10 @@ def register(request, data: Dict[str, Any], role: UserRole) -> User:
         is_active=True,
         verification_code=verification_code,
     )
+
+    if role == UserRole.TENANT:
+        tenant_group = Group.objects.get(name=LANDLORD_GROUP_NAME)
+        tenant_group.user_set.add(user)
 
     send_email_verification(request, user)
 

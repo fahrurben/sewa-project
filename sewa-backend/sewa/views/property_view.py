@@ -16,4 +16,22 @@ class PropertyView(viewsets.ModelViewSet[Property]):
         return context
 
     def get_queryset(self):
-        return Property.objects.filter(owner=self.request.user).order_by('name')
+        query_set = Property.objects.filter(owner=self.request.user).order_by('name')
+
+        province_param = self.request.GET.get('province')
+        city_param = self.request.GET.get('city')
+        min_param = self.request.GET.get('min')
+        max_param = self.request.GET.get('max')
+
+        if city_param:
+            query_set = query_set.filter(city=city_param)
+        elif province_param:
+            query_set = query_set.filter(province=province_param)
+
+        if min_param:
+            query_set = query_set.filter(rental_cost__gte=min_param)
+
+        if max_param:
+            query_set = query_set.filter(rental_cost__lte=max_param)
+
+        return query_set
