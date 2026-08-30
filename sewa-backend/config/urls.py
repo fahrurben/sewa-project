@@ -28,11 +28,17 @@ from rest_framework_simplejwt.views import (
 
 from sewa.views.email_verification_view import email_verification_view
 from sewa.views.register_view import register_view
-from sewa.views import AgreementTemplateView, PropertyView, ImageUploadView
+from sewa.views import (
+    AgreementTemplateView,
+    PropertyView,
+    ImageUploadView,
+    ApplicationView,
+)
 
 router = SimpleRouter(trailing_slash=False)
 router.register(r'agreement-templates', AgreementTemplateView, basename='agreement_templates')
 router.register(r'properties', PropertyView, basename='properties')
+router.register(r'applications', ApplicationView, basename='applications')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

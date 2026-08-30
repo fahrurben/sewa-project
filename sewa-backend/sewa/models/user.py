@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.models import BaseUserManager as BUM
 from django.db import models
 
+LANDLORD_GROUP_NAME = 'landlord'
 
 class UserRole(models.TextChoices):
     ADMIN = 'AD', 'Admin'
