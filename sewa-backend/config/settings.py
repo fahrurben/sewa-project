@@ -137,7 +137,7 @@ TIME_ZONE = 'UTC'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'sewa.middlewares.JWTCookieAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
@@ -146,7 +146,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=int(os.getenv("JWT_MAX_LIFETIME", 1))),
-    "REFRESH_TOKEN_LIFETIME": timedelta(hours=int(os.getenv("JWT_MAX_LIFETIME", 1))),
+    "REFRESH_TOKEN_LIFETIME": timedelta(hours=int(os.getenv("JWT_REFRESH_MAX_LIFETIME", 1))),
 }
 
 if DEBUG:

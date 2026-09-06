@@ -33,6 +33,7 @@ from sewa.views import (
     PropertyView,
     ImageUploadView,
     ApplicationView,
+    CookieTokenObtainPairView,
 )
 
 router = SimpleRouter(trailing_slash=False)
@@ -44,7 +45,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/email-verification', email_verification_view, name='email_verification'),
     path('api/register/<str:role>', register_view, name='register'),
-    path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+
+    # Todo: Disable this if the token can get in postman
+    path('api/login', CookieTokenObtainPairView.as_view(), name='login'),
+
     path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/media-upload', ImageUploadView.as_view(), name='media_upload'),
     path('api/', include(router.urls)),
