@@ -13,6 +13,10 @@ import { Controller, useForm } from "react-hook-form";
 import InputText from "../../components/form/inputtext.element";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { API_URL } from "../../common/constant";
+import { useNavigate } from "react-router";
 
 type LoginData = {
   email: string;
@@ -34,9 +38,26 @@ const Login = () => {
   } = useForm<LoginData>({
     resolver: yupResolver(schema),
   });
+  const navigate = useNavigate();
+
+  const mutation = useMutation({
+    mutationFn: (formData) => {
+      const url = `${API_URL}/login`;
+      return axios.post(url, formData, {
+        withCredentials: true,
+      });
+    },
+    onSuccess: (data) => {
+      alert("Success");
+      navigate("/tenant/");
+    },
+    onError: (error) => {
+      alert("Failed");
+    },
+  });
 
   const onSubmit = (data) => {
-    console.log(data);
+    mutation.mutate(data);
   };
 
   return (

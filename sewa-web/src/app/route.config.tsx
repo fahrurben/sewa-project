@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import RootLayout from "./root.layout";
 import Login from "../views/login/login.view";
+import Home from "../views/home/index.view";
 
 const routeConfig = createBrowserRouter([
   {
@@ -9,7 +10,10 @@ const routeConfig = createBrowserRouter([
     children: [
       {
         path: "tenant",
-        children: [{ path: "login", Component: Login }],
+        children: [
+          { Component: Home, index: true },
+          { path: "login", Component: Login },
+        ],
       },
     ],
   },
