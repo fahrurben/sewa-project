@@ -8,15 +8,15 @@ import {
   LayoutHeader,
 } from "@astryxdesign/core/Layout";
 import { Heading } from "@astryxdesign/core/Text";
-import { TextInput } from "@astryxdesign/core/TextInput";
-import { Controller, useForm } from "react-hook-form";
-import InputText from "../../components/form/inputtext.element";
+import { useToast } from "@astryxdesign/core/Toast";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { API_URL } from "../../common/constant";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import * as yup from "yup";
+import { API_URL } from "../../common/constant";
+import InputText from "../../components/form/inputtext.element";
 
 type LoginData = {
   email: string;
@@ -39,6 +39,7 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
   const navigate = useNavigate();
+  const toast = useToast();
 
   const mutation = useMutation({
     mutationFn: (formData) => {
@@ -48,11 +49,15 @@ const Login = () => {
       });
     },
     onSuccess: (data) => {
-      alert("Success");
       navigate("/tenant/");
     },
     onError: (error) => {
-      alert("Failed");
+      toast({
+        body: "Wrong username or password",
+        type: "error",
+        isAutoHide: true,
+        autoHideDuration: 3000,
+      });
     },
   });
 

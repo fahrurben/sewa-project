@@ -19,7 +19,11 @@ const useAuth = () => {
 
   useEffect(() => {
     async function getUserDetails() {
-      const user = await fetchUser();
+      let user = null;
+
+      try {
+        user = await fetchUser();
+      } catch (e) {}
       if (!user) {
         navigate("/tenant/login");
       }
