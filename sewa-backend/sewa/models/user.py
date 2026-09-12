@@ -111,6 +111,7 @@ class BaseUserManager(BUM):
             is_active=True,
             is_admin=True,
             password=password,
+            verification_code='123',
         )
 
         user.is_superuser = True

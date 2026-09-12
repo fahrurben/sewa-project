@@ -32,6 +32,7 @@ class PropertySerializer(serializers.ModelSerializer):
             'owner',
             'name',
             'description',
+            'address',
             'province',
             'city',
             'district',

@@ -1,12 +1,12 @@
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router";
-import { API_URL } from "../common/constant";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { API_URL } from "../common/constant";
 
 const fetchUser = async () => {
   const url = `${API_URL}/my-profile`;
 
-  let response = await axios.get(url, {
+  const response = await axios.get(url, {
     withCredentials: true,
   });
 
@@ -23,7 +23,9 @@ const useAuth = () => {
 
       try {
         user = await fetchUser();
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
       if (!user) {
         navigate("/tenant/login");
       }

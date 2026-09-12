@@ -1,4 +1,4 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.response import Response
 from rest_framework.request import Request
 
@@ -11,6 +11,8 @@ from sewa.services.register_service import register
 
 
 @api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
 def register_view(request: Request, role: str):
     serializer = RegisterSerializer(data=request.data)
 

@@ -1,7 +1,7 @@
-import type { FieldError, Control } from "react-hook-form";
+import type { Control } from "react-hook-form";
 
-import { Controller } from "react-hook-form";
 import { TextInput } from "@astryxdesign/core/TextInput";
+import { Controller } from "react-hook-form";
 
 const InputText = ({
   name,
@@ -22,7 +22,7 @@ const InputText = ({
   type?: string;
   required?: boolean;
 }) => {
-  let status =
+  const status =
     error === true
       ? {
           type: "error",

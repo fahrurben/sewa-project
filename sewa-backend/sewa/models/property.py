@@ -24,6 +24,7 @@ class Property(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField()
+    address = models.CharField(max_length=500, default='')
     province = models.CharField(max_length=10)
     city = models.CharField(max_length=10)
     district = models.CharField(max_length=20)

@@ -15,8 +15,8 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import * as yup from "yup";
-import { API_URL } from "../../common/constant";
-import InputText from "../../components/form/inputtext.element";
+import { API_URL } from "../../../common/constant";
+import InputText from "../../../components/form/inputtext.element";
 
 type LoginData = {
   email: string;
@@ -48,10 +48,10 @@ const Login = () => {
         withCredentials: true,
       });
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       navigate("/tenant/");
     },
-    onError: (error) => {
+    onError: () => {
       toast({
         body: "Wrong username or password",
         type: "error",

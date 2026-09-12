@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router";
 import RootLayout from "./root.layout";
-import Login from "../views/login/login.view";
-import Home from "../views/home/index.view";
+import Login from "../views/tenant/login/login.view";
+import PropertyList from "../views/tenant/property/index.view";
+import MainLayout from "./main.layout";
 
 const routeConfig = createBrowserRouter([
   {
@@ -11,7 +12,10 @@ const routeConfig = createBrowserRouter([
       {
         path: "tenant",
         children: [
-          { Component: Home, index: true },
+          {
+            Component: MainLayout,
+            children: [{ Component: PropertyList, index: true }],
+          },
           { path: "login", Component: Login },
         ],
       },
