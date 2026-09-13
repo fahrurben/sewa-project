@@ -4,3 +4,5 @@ from .image_upload_view import ImageUploadView
 from .application_view import ApplicationView
 from .login_view import CookieTokenObtainPairView
 from .my_profile_view import my_profile_view
+from .province_view import ProvinceView
+from .regency_view import RegencyView

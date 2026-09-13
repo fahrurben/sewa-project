@@ -35,13 +35,16 @@ from sewa.views import (
     ApplicationView,
     CookieTokenObtainPairView,
     my_profile_view,
+    ProvinceView,
+    RegencyView,
 )
 
 router = SimpleRouter(trailing_slash=False)
 router.register(r'agreement-templates', AgreementTemplateView, basename='agreement_templates')
 router.register(r'properties', PropertyView, basename='properties')
 router.register(r'applications', ApplicationView, basename='applications')
-
+router.register(r'provinces', ProvinceView, basename='provinces')
+router.register(r'regencies', RegencyView, basename='regencies')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/email-verification', email_verification_view, name='email_verification'),

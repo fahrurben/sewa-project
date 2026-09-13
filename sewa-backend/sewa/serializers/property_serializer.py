@@ -22,6 +22,8 @@ class PropertySerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     agreement_template_id = serializers.BigIntegerField(write_only=True)
     agreement_template = AgreementTemplateSerializer(read_only=True)
+    province_id = serializers.CharField()
+    city_id = serializers.CharField()
     images = PropertyImageSerializer(many=True)
 
     class Meta:
@@ -33,10 +35,10 @@ class PropertySerializer(serializers.ModelSerializer):
             'name',
             'description',
             'address',
-            'province',
-            'city',
-            'district',
-            'sub_district',
+            'province_id',
+            'province_name',
+            'city_id',
+            'city_name',
             'postal_code',
             'longitude',
             'latitude',

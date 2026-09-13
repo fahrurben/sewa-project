@@ -1,6 +1,8 @@
 from django.db import models
 
 from sewa.models import User, AgreementTemplate
+from sewa.models.province import Province
+from sewa.models.regency import Regency
 
 class PropertyType(models.TextChoices):
     HOUSE = 'HOUSE', 'House'
@@ -25,10 +27,8 @@ class Property(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     address = models.CharField(max_length=500, default='')
-    province = models.CharField(max_length=10)
-    city = models.CharField(max_length=10)
-    district = models.CharField(max_length=20)
-    sub_district = models.CharField(max_length=20)
+    province = models.ForeignKey(Province, on_delete=models.RESTRICT)
+    city = models.ForeignKey(Regency, on_delete=models.RESTRICT)
     postal_code = models.CharField(max_length=5)
     longitude = models.DecimalField(max_digits=11, decimal_places=8)
     latitude = models.DecimalField(max_digits=10, decimal_places=8)
@@ -49,6 +49,14 @@ class Property(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def province_name(self):
+        return self.province.name
+
+    @property
+    def city_name(self):
+        return self.city.name
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(
