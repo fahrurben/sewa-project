@@ -82,16 +82,14 @@ const Login = () => {
                   label="Email"
                   control={control}
                   placeholder="you@example.com"
-                  error={errors.email ? true : false}
-                  errorMsg={errors.email?.message?.toString()}
+                  error={errors.email}
                 />
                 <InputText
                   name="password"
                   label="Password"
                   type="password"
                   control={control}
-                  error={errors.password ? true : false}
-                  errorMsg={errors.password?.message?.toString()}
+                  error={errors.password}
                 />
               </LayoutContent>
             }

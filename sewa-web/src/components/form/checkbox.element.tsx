@@ -1,15 +1,14 @@
 import type { Control } from "react-hook-form";
 
-import { TextInput } from "@astryxdesign/core/TextInput";
+import { CheckboxInput } from "@astryxdesign/core/CheckboxInput";
 import { Controller } from "react-hook-form";
+import { Field } from "@astryxdesign/core";
 
-const InputText = ({
+const CheckBox = ({
   name,
   label,
-  placeholder,
   control,
   error,
-  type = "text",
   required = false,
 }: {
   name: string;
@@ -17,7 +16,6 @@ const InputText = ({
   placeholder: string;
   control: Control;
   error: unknown;
-  type?: string;
   required?: boolean;
 }) => {
   const status = error
@@ -32,17 +30,17 @@ const InputText = ({
       name={name}
       control={control}
       render={({ field }) => (
-        <TextInput
-          type={type}
-          label={label}
-          placeholder={placeholder}
-          isRequired={required}
-          status={status}
-          {...field}
-        />
+        <Field>
+          <CheckboxInput
+            name={name}
+            label={label}
+            isRequired={required}
+            {...field}
+          />
+        </Field>
       )}
     />
   );
 };
 
-export default InputText;
+export default CheckBox;

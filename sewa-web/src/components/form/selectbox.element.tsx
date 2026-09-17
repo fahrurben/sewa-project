@@ -1,12 +1,13 @@
 import type { Control } from "react-hook-form";
 
-import { TextInput } from "@astryxdesign/core/TextInput";
 import { Controller } from "react-hook-form";
+import { Selector } from "@astryxdesign/core";
 
-const InputText = ({
+const SelectBox = ({
   name,
   label,
   placeholder,
+  options,
   control,
   error,
   type = "text",
@@ -15,6 +16,7 @@ const InputText = ({
   name: string;
   label: string;
   placeholder: string;
+  options: Record<string, string>[];
   control: Control;
   error: unknown;
   type?: string;
@@ -32,12 +34,11 @@ const InputText = ({
       name={name}
       control={control}
       render={({ field }) => (
-        <TextInput
-          type={type}
+        <Selector
           label={label}
+          options={options}
           placeholder={placeholder}
-          isRequired={required}
-          status={status}
+          presentation="bottom-sheet"
           {...field}
         />
       )}
@@ -45,4 +46,4 @@ const InputText = ({
   );
 };
 
-export default InputText;
+export default SelectBox;
