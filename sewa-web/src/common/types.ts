@@ -1,14 +1,16 @@
 export type ErrorResponse = {
   message: string;
 };
-export type OnSuccessCallback = (data: unknown) => void;
-export type OnErrorCallback = (data: ErrorResponse) => void;
+export type OnSuccessCallback = (data: any) => void;
+export type OnErrorCallback = (data: any) => void;
 
 export type PropertyType = {
   id: number;
   name: string;
+  description: string;
   province_id: string;
   city_id: string;
+  address: string;
   postal_code: string;
   longitude: number;
   latitude: number;

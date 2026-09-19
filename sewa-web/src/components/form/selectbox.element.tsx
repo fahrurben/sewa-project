@@ -1,27 +1,27 @@
-import type { Control } from "react-hook-form";
+import type { Control, FieldPath, FieldValues } from "react-hook-form";
 
 import { Controller } from "react-hook-form";
-import { Selector } from "@astryxdesign/core";
+import { Selector, type SelectorOptionType } from "@astryxdesign/core";
 
-const SelectBox = ({
+interface GenericSelectProps<T extends FieldValues> {
+  name: FieldPath<T>;
+  label: string;
+  options: SelectorOptionType[];
+  placeholder?: string;
+  control: Control<T>;
+  error: any;
+  required?: boolean;
+}
+
+const SelectBox = <T extends FieldValues>({
   name,
   label,
   placeholder,
   options,
   control,
   error,
-  type = "text",
   required = false,
-}: {
-  name: string;
-  label: string;
-  placeholder: string;
-  options: Record<string, string>[];
-  control: Control;
-  error: unknown;
-  type?: string;
-  required?: boolean;
-}) => {
+}: GenericSelectProps<T>) => {
   const status = error
     ? {
         type: "error",
@@ -38,7 +38,6 @@ const SelectBox = ({
           label={label}
           options={options}
           placeholder={placeholder}
-          presentation="bottom-sheet"
           {...field}
         />
       )}

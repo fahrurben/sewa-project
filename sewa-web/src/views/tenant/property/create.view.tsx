@@ -5,6 +5,7 @@ import {
   HStack,
   Icon,
   IconButton,
+  Thumbnail,
   useToast,
 } from "@astryxdesign/core";
 import { Heading } from "@astryxdesign/core/Text";
@@ -17,7 +18,6 @@ import {
   FURNISHING_TYPE_OPTIONS,
   PROPERTY_TYPE_OPTIONS,
 } from "../../../common/constant";
-import type { PropertyType } from "../../../common/types";
 import InputText from "../../../components/form/inputtext.element";
 import SelectBox from "../../../components/form/selectbox.element";
 import UploadFormField from "../../../components/form/uploadform.element";
@@ -29,18 +29,17 @@ import {
 import CheckBox from "../../../components/form/checkbox.element";
 import { useGetAllAgreementTemplate } from "../../../hooks/use-agreement-template.api";
 import { useCreateProperty } from "../../../hooks/use-property.api";
+import InputNumeric from "../../../components/form/inputnumeric.element";
 
 const PropertyCreateView = () => {
-  const imageSchema = yup.object({
-    filename: yup.string(),
-  });
+  const imageSchema = yup.object({ filename: yup.string() });
 
   const schema = yup
     .object({
       name: yup.string().min(10).max(255).required(),
       description: yup.string().min(10).required(),
-      province_id: yup.number().required(),
-      city_id: yup.number().required(),
+      province_id: yup.string().required(),
+      city_id: yup.string().required(),
       postal_code: yup.string().max(5).required(),
       longitude: yup.number().required(),
       latitude: yup.number().required(),
@@ -54,9 +53,13 @@ const PropertyCreateView = () => {
       is_deposit_required: yup.bool(),
       deposit_amount: yup.number().required(),
       agreement_template_id: yup.number().required(),
+      thumbnail: yup.string(),
       images: yup.array().of(imageSchema),
     })
     .required();
+
+  type ImageType = yup.InferType<typeof imageSchema>;
+  type PropertyType = yup.InferType<typeof schema>;
 
   const {
     control,
@@ -81,7 +84,6 @@ const PropertyCreateView = () => {
       rental_cost: 0,
       is_deposit_required: false,
       deposit_amount: 0,
-      status: "",
       images: [{ filename: "" }],
     },
   });
@@ -106,7 +108,6 @@ const PropertyCreateView = () => {
     onSuccess: () => {
       toast({
         body: "Property created",
-        type: "success",
         isAutoHide: true,
         autoHideDuration: 3000,
       });
@@ -124,11 +125,11 @@ const PropertyCreateView = () => {
     },
   });
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: PropertyType) => {
     const formData: Record<string, unknown> = { ...values };
     formData.status = "DRAFT";
 
-    formData.images = values.images?.filter((data) => {
+    formData.images = values.images?.filter((data: ImageType) => {
       return data.filename !== "";
     });
 
@@ -140,7 +141,7 @@ const PropertyCreateView = () => {
   const { data: agreementTemplates } = useGetAllAgreementTemplate();
   const agreementTemplateOptions =
     agreementTemplates &&
-    agreementTemplates.map((datum) => ({
+    agreementTemplates.map((datum: any) => ({
       label: datum.title,
       value: datum.id,
     }));
@@ -163,7 +164,6 @@ const PropertyCreateView = () => {
             label="Description"
             control={control}
             error={errors.description}
-            type="multiline"
           />
           <SelectBox
             name="province_id"
@@ -187,16 +187,14 @@ const PropertyCreateView = () => {
             control={control}
             error={errors.postal_code}
           />
-          <InputText
+          <InputNumeric
             name="longitude"
-            type="number"
             label="Longitude"
             control={control}
             error={errors.longitude}
           />
-          <InputText
+          <InputNumeric
             name="latitude"
-            type="number"
             label="Latitude"
             control={control}
             error={errors.latitude}
@@ -217,37 +215,32 @@ const PropertyCreateView = () => {
             control={control}
             error={errors.type}
           />
-          <InputText
+          <InputNumeric
             name="land_area"
-            type="number"
             label="Land Area"
             control={control}
             error={errors.land_area}
           />
-          <InputText
+          <InputNumeric
             name="building_area"
-            type="number"
             label="Building Area"
             control={control}
             error={errors.building_area}
           />
-          <InputText
+          <InputNumeric
             name="total_rooms"
-            type="number"
             label="Total Rooms"
             control={control}
             error={errors.total_rooms}
           />
-          <InputText
+          <InputNumeric
             name="total_bathrooms"
-            type="number"
             label="Total Bathrooms"
             control={control}
             error={errors.total_bathrooms}
           />
-          <InputText
+          <InputNumeric
             name="rental_cost"
-            type="number"
             label="Rental Cost"
             control={control}
             error={errors.rental_cost}
@@ -258,9 +251,8 @@ const PropertyCreateView = () => {
             control={control}
             error={errors.is_deposit_required}
           />
-          <InputText
+          <InputNumeric
             name="deposit_amount"
-            type="number"
             label="Deposit Amount"
             control={control}
             error={errors.deposit_amount}
@@ -299,7 +291,8 @@ const PropertyCreateView = () => {
                 <label className="w-1/12 mr-6">{`Image ${index + 1}`}</label>
                 <div className="w-11/12">
                   <UploadFormField
-                    name={`images.${index}.filename`}
+                    name={`images.${index}`}
+                    label=""
                     control={control}
                     value={null}
                   />

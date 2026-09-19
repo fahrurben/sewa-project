@@ -1,19 +1,12 @@
-import InfiniteScroll from "react-infinite-scroll-component";
 import { Card } from "@astryxdesign/core/Card";
 import { HStack, Stack } from "@astryxdesign/core/Layout";
-import type { TableColumn } from "@astryxdesign/core/Table";
-import {
-  proportional,
-  Table,
-  useTableColumnSettings,
-  useTableColumnSettingsState,
-} from "@astryxdesign/core/Table";
 import { Heading, Text } from "@astryxdesign/core/Text";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { API_URL, MEDIA_BASE_URL, PAGE_SIZE } from "../../../common/constant";
+import type { PropertyType } from "../../../common/types";
 import useAuth from "../../../hooks/userauthhook";
-import defaultPlaceholder from "../../../assets/300x200.svg";
 
 const PropertyList = () => {
   useAuth();
@@ -63,7 +56,7 @@ const PropertyList = () => {
           </p>
         }
       >
-        {items.map((item) => {
+        {items.map((item: PropertyType) => {
           const propertyImage = MEDIA_BASE_URL + item.thumbnail;
           return (
             <Card width={"100%"} className="p-6 mt-6">

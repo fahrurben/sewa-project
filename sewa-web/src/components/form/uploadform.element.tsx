@@ -1,11 +1,30 @@
 import React, { useState } from "react";
 
 import { MEDIA_BASE_URL, MEDIA_UPLOAD_URL } from "../../common/constant.js";
-import { Controller } from "react-hook-form";
+import {
+  Controller,
+  type Control,
+  type FieldPath,
+  type FieldValues,
+} from "react-hook-form";
 import axios from "axios";
 import { Field, FileInput } from "@astryxdesign/core";
 
-const UploadFormField = ({ control, name, label, value, required = false }) => {
+interface GenericSelectProps<T extends FieldValues> {
+  name: FieldPath<T>;
+  label: string;
+  value: any;
+  control: Control<T>;
+  required?: boolean;
+}
+
+const UploadFormField = <T extends FieldValues>({
+  name,
+  label,
+  control,
+  value,
+  required = false,
+}: GenericSelectProps<T>) => {
   const [file, setFile] = useState(null);
 
   const handleFileChange = async (field, file) => {

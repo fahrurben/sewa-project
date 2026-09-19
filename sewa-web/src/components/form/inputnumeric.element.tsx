@@ -1,9 +1,7 @@
 import type { Control, FieldPath, FieldValues } from "react-hook-form";
 import { Controller } from "react-hook-form";
 
-import type { InputStatus } from "@astryxdesign/core";
-import type { TextInputType } from "@astryxdesign/core/TextInput";
-import { TextInput } from "@astryxdesign/core/TextInput";
+import { NumberInput, type InputStatus } from "@astryxdesign/core";
 
 interface GenericInputProps<T extends FieldValues> {
   name: FieldPath<T>;
@@ -11,17 +9,15 @@ interface GenericInputProps<T extends FieldValues> {
   placeholder?: string;
   control: Control<T>;
   error: any;
-  type?: TextInputType;
   required?: boolean;
 }
 
-export const InputText = <T extends FieldValues>({
+export const InputNumeric = <T extends FieldValues>({
   name,
   label,
   placeholder,
   control,
   error,
-  type = "text",
   required = false,
 }: GenericInputProps<T>) => {
   const status: InputStatus | undefined = error
@@ -36,8 +32,7 @@ export const InputText = <T extends FieldValues>({
       name={name}
       control={control}
       render={({ field }) => (
-        <TextInput
-          type={type}
+        <NumberInput
           label={label}
           placeholder={placeholder}
           isRequired={required}
@@ -49,4 +44,4 @@ export const InputText = <T extends FieldValues>({
   );
 };
 
-export default InputText;
+export default InputNumeric;

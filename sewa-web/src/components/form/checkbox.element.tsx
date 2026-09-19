@@ -1,23 +1,25 @@
-import type { Control } from "react-hook-form";
+import type { Control, FieldPath, FieldValues } from "react-hook-form";
 
 import { CheckboxInput } from "@astryxdesign/core/CheckboxInput";
 import { Controller } from "react-hook-form";
 import { Field } from "@astryxdesign/core";
 
-const CheckBox = ({
+interface GenericCheckBoxProps<T extends FieldValues> {
+  name: FieldPath<T>;
+  label: string;
+  placeholder?: string;
+  control: Control<T>;
+  error: any;
+  required?: boolean;
+}
+
+const CheckBox = <T extends FieldValues>({
   name,
   label,
   control,
   error,
   required = false,
-}: {
-  name: string;
-  label: string;
-  placeholder: string;
-  control: Control;
-  error: unknown;
-  required?: boolean;
-}) => {
+}: GenericCheckBoxProps<T>) => {
   const status = error
     ? {
         type: "error",
@@ -30,13 +32,8 @@ const CheckBox = ({
       name={name}
       control={control}
       render={({ field }) => (
-        <Field>
-          <CheckboxInput
-            name={name}
-            label={label}
-            isRequired={required}
-            {...field}
-          />
+        <Field label="" inputID={name}>
+          <CheckboxInput label={label} isRequired={required} {...field} />
         </Field>
       )}
     />
