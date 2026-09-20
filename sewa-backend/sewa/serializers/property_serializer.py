@@ -20,7 +20,7 @@ class PropertySerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     owner_id = serializers.IntegerField(read_only=True)
     owner = UserSerializer(read_only=True)
-    agreement_template_id = serializers.BigIntegerField(write_only=True)
+    agreement_template_id = serializers.BigIntegerField()
     agreement_template = AgreementTemplateSerializer(read_only=True)
     province_id = serializers.CharField()
     city_id = serializers.CharField()

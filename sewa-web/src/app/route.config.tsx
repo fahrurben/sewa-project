@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router";
-import RootLayout from "./root.layout";
 import Login from "../views/tenant/login/login.view";
-import PropertyList from "../views/tenant/property/index.view";
 import PropertyCreateView from "../views/tenant/property/create.view";
+import PropertyEditView from "../views/tenant/property/edit.view";
+import PropertyList from "../views/tenant/property/index.view";
 import MainLayout from "./main.layout";
+import RootLayout from "./root.layout";
 
 const routeConfig = createBrowserRouter([
   {
@@ -19,7 +20,10 @@ const routeConfig = createBrowserRouter([
               { Component: PropertyList, index: true },
               {
                 path: "property",
-                children: [{ path: "create", Component: PropertyCreateView }],
+                children: [
+                  { path: "create", Component: PropertyCreateView },
+                  { path: "edit/:id", Component: PropertyEditView },
+                ],
               },
             ],
           },

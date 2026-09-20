@@ -10,6 +10,7 @@ interface GenericInputProps<T extends FieldValues> {
   control: Control<T>;
   error: any;
   required?: boolean;
+  isIntegerOnly?: boolean;
 }
 
 export const InputNumeric = <T extends FieldValues>({
@@ -19,6 +20,7 @@ export const InputNumeric = <T extends FieldValues>({
   control,
   error,
   required = false,
+  isIntegerOnly = false,
 }: GenericInputProps<T>) => {
   const status: InputStatus | undefined = error
     ? {
@@ -37,6 +39,7 @@ export const InputNumeric = <T extends FieldValues>({
           placeholder={placeholder}
           isRequired={required}
           status={status}
+          isIntegerOnly={isIntegerOnly}
           {...field}
         />
       )}
