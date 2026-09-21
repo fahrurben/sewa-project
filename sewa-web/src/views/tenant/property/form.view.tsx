@@ -176,9 +176,20 @@ const Form = ({
     }
   };
 
-  const { data: provincesOptions } = useGetAllProvinceOptions();
-  const { data: regencyOptions } = useGetAllRegencyOptions(selectedProvince);
-  const { data: agreementTemplates } = useGetAllAgreementTemplate();
+  const { data: provincesOptions, isLoading: isLoadingProvince } =
+    useGetAllProvinceOptions();
+  const { data: regencyOptions, isLoading: isLoadingRegency } =
+    useGetAllRegencyOptions(selectedProvince);
+  const { data: agreementTemplates, isLoading: isLoadingAgreement } =
+    useGetAllAgreementTemplate();
+
+  const isLoading =
+    isLoadingProvince ||
+    isLoadingRegency ||
+    isLoadingAgreement ||
+    createMutation.isPending ||
+    updateMutation.isPending;
+
   const agreementTemplateOptions =
     agreementTemplates &&
     agreementTemplates.map((datum: any) => ({
@@ -196,8 +207,6 @@ const Form = ({
       reset({ ...initialValue, images: [...initialImages] });
     }
   }, [initialValue]);
-
-  console.log(errors);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -366,7 +375,12 @@ const Form = ({
       </div>
       <HStack gap={2} hAlign="end">
         <Button label="Cancel" variant="secondary" href="/tenant" />
-        <Button label="Submit" type="submit" variant="primary" />
+        <Button
+          label="Submit"
+          type="submit"
+          variant="primary"
+          isLoading={isLoading}
+        />
       </HStack>
     </form>
   );

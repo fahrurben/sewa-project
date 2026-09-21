@@ -1,5 +1,5 @@
 import { Card } from "@astryxdesign/core/Card";
-import { HStack, Stack } from "@astryxdesign/core/Layout";
+import { HStack, Stack, VStack } from "@astryxdesign/core/Layout";
 import { Heading, Text } from "@astryxdesign/core/Text";
 import axios from "axios";
 import { useState } from "react";
@@ -7,7 +7,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { API_URL, MEDIA_BASE_URL, PAGE_SIZE } from "../../../common/constant";
 import type { PropertyType } from "../../../common/types";
 import useAuth from "../../../hooks/userauthhook";
-import { Icon, IconButton } from "@astryxdesign/core";
+import { Icon, IconButton, Skeleton } from "@astryxdesign/core";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
 const PropertyList = () => {
@@ -58,13 +58,18 @@ const PropertyList = () => {
         next={fetchMoreData} // Mandatory: function called when user scrolls to threshold
         hasMore={hasMore} // Mandatory: boolean to turn off scrolling
         loader={
-          <h4 style={{ textAlign: "center" }}>
-            Loading more awesome content...
-          </h4>
+          <VStack gap={2} className="w-full mt-8">
+            <Skeleton className="w-full" height={16} index={0} />
+            <Skeleton className="w-full" height={16} index={1} />
+            <Skeleton className="w-full" height={16} index={2} />
+            <Skeleton className="w-full" height={16} index={3} />
+            <Skeleton className="w-full" height={16} index={4} />
+            <Skeleton className="w-full" height={16} index={5} />
+          </VStack>
         }
         endMessage={
           <p style={{ textAlign: "center", color: "#888" }}>
-            <b>Yay! You have seen it all 🎉</b>
+            <b>All properties are loaded</b>
           </p>
         }
       >
