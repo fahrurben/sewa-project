@@ -7,6 +7,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { API_URL, MEDIA_BASE_URL, PAGE_SIZE } from "../../../common/constant";
 import type { PropertyType } from "../../../common/types";
 import useAuth from "../../../hooks/userauthhook";
+import { Icon, IconButton } from "@astryxdesign/core";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 const PropertyList = () => {
   useAuth();
@@ -39,8 +41,18 @@ const PropertyList = () => {
   // Fetch initial batch on component mount
 
   return (
-    <div className="p-4">
-      <Heading level={1}>Property</Heading>
+    <div className="py-8 px-6">
+      <HStack gap={2}>
+        <Heading level={1}>Property</Heading>
+        <IconButton
+          href="/tenant/property/create"
+          label="Add"
+          variant="primary"
+          icon={<Icon icon={PlusIcon} />}
+          elevation="high"
+        />
+      </HStack>
+
       <InfiniteScroll
         dataLength={items.length} // Mandatary: current length of data
         next={fetchMoreData} // Mandatory: function called when user scrolls to threshold

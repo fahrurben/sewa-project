@@ -365,6 +365,7 @@ const Form = ({
         })}
       </div>
       <HStack gap={2} hAlign="end">
+        <Button label="Cancel" variant="secondary" href="/tenant" />
         <Button label="Submit" type="submit" variant="primary" />
       </HStack>
     </form>
