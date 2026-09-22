@@ -20,6 +20,9 @@ class PropertySerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     owner_id = serializers.IntegerField(read_only=True)
     owner = UserSerializer(read_only=True)
+    type_label = serializers.ReadOnlyField(source='get_type_display')
+    furnishing_type_label = serializers.ReadOnlyField(source='get_furnishing_type_display')
+    rental_cost_type_label = serializers.ReadOnlyField(source='get_rental_cost_type_display')
     agreement_template_id = serializers.BigIntegerField()
     agreement_template = AgreementTemplateSerializer(read_only=True)
     province_id = serializers.CharField()
@@ -43,12 +46,15 @@ class PropertySerializer(serializers.ModelSerializer):
             'longitude',
             'latitude',
             'type',
+            'type_label',
             'furnishing_type',
+            'furnishing_type_label',
             'land_area',
             'building_area',
             'total_rooms',
             'total_bathrooms',
             'rental_cost_type',
+            'rental_cost_type_label',
             'rental_cost',
             'is_deposit_required',
             'deposit_amount',

@@ -1,8 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { API_URL } from "../common/constant";
 import axios from "axios";
-import type { OnSuccessCallback, OnErrorCallback } from "../common/types";
-import { number } from "yup";
+import { API_URL } from "../common/constant";
+import type { OnErrorCallback, OnSuccessCallback } from "../common/types";
 
 const useCreateProperty = ({
   onSuccess,
@@ -71,4 +70,32 @@ const useUpdateProperty = ({
   });
 };
 
-export { useCreateProperty, useGetProperty, useUpdateProperty };
+const useDeleteProperty = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess: OnSuccessCallback;
+  onError: OnErrorCallback;
+}) => {
+  return useMutation({
+    mutationFn: ({ id }: { id: number }) => {
+      const url = `${API_URL}/properties/${id}`;
+      return axios.delete(url, {
+        withCredentials: true,
+      });
+    },
+    onSuccess: (data) => {
+      onSuccess?.(data);
+    },
+    onError: (error) => {
+      onError?.(error);
+    },
+  });
+};
+
+export {
+  useCreateProperty,
+  useDeleteProperty,
+  useGetProperty,
+  useUpdateProperty,
+};

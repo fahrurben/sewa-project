@@ -18,7 +18,7 @@ const useGetAllProvinceOptions = () => {
 
 const useGetAllRegencyOptions = (provinceId: string) => {
   return useQuery({
-    queryKey: ["getAllRegency"],
+    queryKey: ["getAllRegency", provinceId],
     queryFn: async () => {
       const url = `${API_URL}/regencies?province_id=${provinceId}`;
 

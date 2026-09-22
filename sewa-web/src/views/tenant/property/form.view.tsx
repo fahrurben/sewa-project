@@ -373,7 +373,7 @@ const Form = ({
           );
         })}
       </div>
-      <HStack gap={2} hAlign="end">
+      <HStack gap={2} hAlign="end" className="mt-4">
         <Button label="Cancel" variant="secondary" href="/tenant" />
         <Button
           label="Submit"

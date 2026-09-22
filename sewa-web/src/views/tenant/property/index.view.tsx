@@ -7,15 +7,28 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { API_URL, MEDIA_BASE_URL, PAGE_SIZE } from "../../../common/constant";
 import type { PropertyType } from "../../../common/types";
 import useAuth from "../../../hooks/userauthhook";
-import { Icon, IconButton, Skeleton } from "@astryxdesign/core";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import {
+  Icon,
+  IconButton,
+  MetadataList,
+  MetadataListItem,
+  Skeleton,
+  useImperativeAlertDialog,
+  useToast,
+} from "@astryxdesign/core";
+import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { useDeleteProperty } from "../../../hooks/use-property.api";
+import { useNavigate } from "react-router";
 
 const PropertyList = () => {
   useAuth();
+  const alert = useImperativeAlertDialog();
 
   const [items, setItems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
+  const toast = useToast();
+  const navigate = useNavigate();
 
   const fetchMoreData = async () => {
     try {
@@ -38,6 +51,32 @@ const PropertyList = () => {
     }
   };
 
+  const deleteMutation = useDeleteProperty({
+    onSuccess: () => {
+      navigate(0);
+      toast({
+        body: "Property deleted",
+        isAutoHide: true,
+        autoHideDuration: 3000,
+      });
+    },
+    onError: (error) => {},
+  });
+
+  const deleteAlertProps = {
+    title: "Delete item?",
+    description:
+      "This action cannot be undone. The item and all its data will be permanently removed.",
+    actionLabel: "Delete",
+  } as const;
+  const deleteClicked = (id: number) => {
+    alert.show({
+      ...deleteAlertProps,
+      onAction: () => {
+        deleteMutation.mutate({ id });
+      },
+    });
+  };
   // Fetch initial batch on component mount
 
   return (
@@ -76,29 +115,72 @@ const PropertyList = () => {
         {items.map((item: PropertyType) => {
           const propertyImage = MEDIA_BASE_URL + item.thumbnail;
           return (
-            <Card width={"100%"} className="p-6 mt-6">
-              <HStack gap={6}>
-                <div>
+            <Card key={item.id} width={"100%"} className="p-6 mt-6">
+              <HStack gap={6} hAlign="around">
+                <div className="w-4/12">
                   <a href="#">
                     <img src={propertyImage} width={"300px"} height={"200px"} />
                   </a>
                 </div>
-                <Stack direction="vertical" gap={2}>
+                <Stack direction="vertical" gap={2} className="w-9/12">
                   <a href="#" className="text-lg font-bold">
                     {item.name}
                   </a>
-                  <Text type="body" className="font-bold">
-                    {item.address}
-                  </Text>
-                  <Text type="body" color="secondary">
-                    {item.description}
-                  </Text>
+                  <MetadataList>
+                    <MetadataListItem label="Address">
+                      {item.address}
+                    </MetadataListItem>
+                    <MetadataListItem label="Province">
+                      {item.province_name}
+                    </MetadataListItem>
+                    <MetadataListItem label="City">
+                      {item.city_name}
+                    </MetadataListItem>
+                    <MetadataListItem label="Postal Code">
+                      {item.postal_code}
+                    </MetadataListItem>
+                    <MetadataListItem label="Type">
+                      {item.type_label}
+                    </MetadataListItem>
+                    <MetadataListItem label="Furnishing Type">
+                      {item.furnishing_type_label}
+                    </MetadataListItem>
+                    <MetadataListItem label="Land Area">
+                      {`${item.land_area} m2`}
+                    </MetadataListItem>
+                    <MetadataListItem label="Building Area">
+                      {`${item.building_area} m2`}
+                    </MetadataListItem>
+                    <MetadataListItem label="Total Rooms">
+                      {item.total_rooms}
+                    </MetadataListItem>
+                    <MetadataListItem label="Total Bathrooms">
+                      {item.total_bathrooms}
+                    </MetadataListItem>
+                  </MetadataList>
                 </Stack>
+                <HStack gap={2}>
+                  <IconButton
+                    label="Edit"
+                    variant="destructive"
+                    icon={<Icon icon={TrashIcon} />}
+                    elevation="high"
+                    onClick={() => deleteClicked(item.id)}
+                  />
+                  <IconButton
+                    label="Edit"
+                    variant="primary"
+                    icon={<Icon icon={PencilIcon} />}
+                    elevation="high"
+                    href={`/tenant/property/edit/${item.id}`}
+                  />
+                </HStack>
               </HStack>
             </Card>
           );
         })}
       </InfiniteScroll>
+      {alert.element}
     </div>
   );
 };
