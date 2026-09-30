@@ -33,3 +33,10 @@ export type PropertyType = {
   status: string;
   thumbnail: string;
 };
+
+export type AgreementTemplateType = {
+  id: number;
+  title: string;
+  content: string;
+  sign_image: File;
+};

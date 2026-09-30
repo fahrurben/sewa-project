@@ -6,7 +6,7 @@ const PropertyCreateView = () => {
   return (
     <div className="p-4">
       <Heading level={1} className="mb-4">
-        Property
+        Agreement Template
       </Heading>
       <PropertyForm />
     </div>

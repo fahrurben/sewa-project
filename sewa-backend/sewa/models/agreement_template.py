@@ -19,7 +19,7 @@ class AgreementTemplate(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=500)
     content = models.TextField()
-    sign_image =  models.ImageField(upload_to=get_unique_file_path)
+    sign_image = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         return self.title

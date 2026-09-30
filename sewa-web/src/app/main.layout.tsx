@@ -1,17 +1,13 @@
 import {
   AppShell,
-  Badge,
   Heading,
   Layout,
   SideNav,
-  SideNavHeading,
   SideNavItem,
   SideNavSection,
   TopNav,
-  TopNavHeading,
-  TopNavItem,
 } from "@astryxdesign/core";
-import { HomeIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { HomeIcon, FolderIcon } from "@heroicons/react/24/outline";
 import { Outlet } from "react-router";
 
 const TopNavWrapper = () => {
@@ -29,6 +25,11 @@ const SideBarWrapper = () => {
     <SideNav>
       <SideNavSection title="Navigation" isHeaderHidden>
         <SideNavItem label="Home" icon={HomeIcon} href="/tenant" />
+        <SideNavItem
+          label="Agreement Template"
+          icon={FolderIcon}
+          href="/tenant/agreement-template"
+        />
       </SideNavSection>
     </SideNav>
   );

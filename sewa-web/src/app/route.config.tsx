@@ -3,8 +3,11 @@ import Login from "../views/tenant/login/login.view";
 import PropertyCreateView from "../views/tenant/property/create.view";
 import PropertyEditView from "../views/tenant/property/edit.view";
 import PropertyList from "../views/tenant/property/index.view";
+import AgreementTemplateList from "../views/tenant/agreement_template/index.view";
 import MainLayout from "./main.layout";
 import RootLayout from "./root.layout";
+import AgreementTemplateCreateView from "../views/tenant/agreement_template/create.view";
+import AgreementTemplateEditView from "../views/tenant/agreement_template/edit.view";
 
 const routeConfig = createBrowserRouter([
   {
@@ -23,6 +26,14 @@ const routeConfig = createBrowserRouter([
                 children: [
                   { path: "create", Component: PropertyCreateView },
                   { path: "edit/:id", Component: PropertyEditView },
+                ],
+              },
+              {
+                path: "agreement-template",
+                children: [
+                  { Component: AgreementTemplateList, index: true },
+                  { path: "create", Component: AgreementTemplateCreateView },
+                  { path: "edit/:id", Component: AgreementTemplateEditView },
                 ],
               },
             ],
