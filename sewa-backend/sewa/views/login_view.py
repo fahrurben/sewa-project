@@ -1,5 +1,5 @@
+from django.conf import settings
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.response import Response
 
 from sewa.models import User
 
@@ -9,6 +9,8 @@ class CookieTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         # Generate tokens like normal
         response = super().post(request, *args, **kwargs)
+
+        is_secure = True if not settings.DEBUG else False
 
         # Extract tokens from response
         access_token = response.data.get("access")
@@ -35,7 +37,7 @@ class CookieTokenObtainPairView(TokenObtainPairView):
             key="access_token",
             value=access_token,
             httponly=True,  # JavaScript can't access
-            secure=False,  # True in production (HTTPS only)
+            secure=is_secure,  # True in production (HTTPS only)
             samesite="Lax"  # CSRF protection
         )
 
@@ -44,9 +46,8 @@ class CookieTokenObtainPairView(TokenObtainPairView):
             key="refresh_token",
             value=refresh_token,
             httponly=True,
-            secure=False,  # True in production
+            secure=is_secure,  # True in production
             samesite="Lax"
         )
 
         return response
-

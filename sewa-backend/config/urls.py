@@ -37,6 +37,7 @@ from sewa.views import (
     my_profile_view,
     ProvinceView,
     RegencyView,
+    logout_view,
 )
 
 router = SimpleRouter(trailing_slash=False)
@@ -53,6 +54,7 @@ urlpatterns = [
 
     # Todo: Disable this if the token can get in postman
     path('api/login', CookieTokenObtainPairView.as_view(), name='login'),
+    path('api/logout', logout_view, name='logout'),
 
     path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/media-upload', ImageUploadView.as_view(), name='media_upload'),

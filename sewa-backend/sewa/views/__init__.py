@@ -6,3 +6,4 @@ from .login_view import CookieTokenObtainPairView
 from .my_profile_view import my_profile_view
 from .province_view import ProvinceView
 from .regency_view import RegencyView
+from .logout_view import logout_view
