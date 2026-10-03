@@ -38,6 +38,7 @@ from sewa.views import (
     ProvinceView,
     RegencyView,
     logout_view,
+    update_profile_view,
 )
 
 router = SimpleRouter(trailing_slash=False)
@@ -51,6 +52,7 @@ urlpatterns = [
     path('api/email-verification', email_verification_view, name='email_verification'),
     path('api/register/<str:role>', register_view, name='register'),
     path('api/my-profile', my_profile_view, name='my_profile'),
+    path('api/update-profile', update_profile_view, name='update_profile'),
 
     # Todo: Disable this if the token can get in postman
     path('api/login', CookieTokenObtainPairView.as_view(), name='login'),

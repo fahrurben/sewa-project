@@ -8,6 +8,7 @@ import MainLayout from "./main.layout";
 import RootLayout from "./root.layout";
 import AgreementTemplateCreateView from "../views/tenant/agreement_template/create.view";
 import AgreementTemplateEditView from "../views/tenant/agreement_template/edit.view";
+import ProfileIndexView from "../views/tenant/profile/index.view";
 
 const routeConfig = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const routeConfig = createBrowserRouter([
             Component: MainLayout,
             children: [
               { Component: PropertyList, index: true },
+              { path: "profile", Component: ProfileIndexView },
               {
                 path: "property",
                 children: [

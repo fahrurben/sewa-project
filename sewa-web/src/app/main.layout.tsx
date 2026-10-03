@@ -6,6 +6,7 @@ import {
   Icon,
   IconButton,
   Layout,
+  Link,
   Popover,
   SideNav,
   SideNavItem,
@@ -18,7 +19,7 @@ import {
   FolderIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
-import { Link, Outlet, useNavigate } from "react-router";
+import { Outlet, useNavigate } from "react-router";
 import { API_URL } from "../common/constant";
 import axios from "axios";
 
@@ -52,7 +53,10 @@ const TopNavWrapper = () => {
               <VStack gap={3}>
                 <Heading level={4}>Settings</Heading>
                 <Divider />
-                <Link onClick={onLogoutClicked} tooltip="Logout" isStandalone>
+                <Link href="/tenant/profile" isStandalone>
+                  Profile
+                </Link>
+                <Link onClick={onLogoutClicked} isStandalone>
                   Logout
                 </Link>
               </VStack>

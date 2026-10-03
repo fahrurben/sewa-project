@@ -13,3 +13,11 @@ export const FURNISHING_TYPE_OPTIONS = [
   { label: "Semi Furnished", value: "SEMI" },
   { label: "Unfurnished", value: "NO" },
 ];
+export const ID_TYPE_OPTIONS = [
+  { label: "ID Card", value: "ID" },
+  { label: "Passport", value: "PA" },
+];
+export const GENDER_OPTIONS = [
+  { label: "Male", value: "M" },
+  { label: "Female", value: "F" },
+];
