@@ -44,8 +44,6 @@ class ApplicationSerializer(serializers.ModelSerializer):
         instance.monthly_lease_rent = property.rental_cost
         instance.deposit_amount = property.deposit_amount
 
-        if "agreement_file" in validated_data:
-            instance.agreement_file = validated_data.get("agreement_file")
         if "id_file" in validated_data:
             instance.id_file = validated_data.get("id_file")
         instance.save()

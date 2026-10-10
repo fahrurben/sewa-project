@@ -16,8 +16,8 @@ def get_unique_file_path(instance, filename):
 
 class ApplicationStatus(models.TextChoices):
     REQUESTED = 'REQ', 'Requested'
-    ACCEPTED = 'ACC', 'Accepted'
     REJECTED = 'REJ', 'Rejected'
+    PENDING_PAYMENT = 'PP', 'Pending Payment'
     PAID = 'PAI', 'Paid'
 
 class Application(models.Model):
@@ -28,7 +28,6 @@ class Application(models.Model):
     duration = models.IntegerField()
     monthly_lease_rent = models.DecimalField(max_digits=10, decimal_places=2)
     deposit_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    agreement_file = models.FileField(upload_to=get_unique_file_path)
     id_file = models.FileField(upload_to=get_unique_file_path)
     status = models.CharField(max_length=3, choices=ApplicationStatus.choices, default=ApplicationStatus.REQUESTED)
     reject_reason = models.TextField(null=True)

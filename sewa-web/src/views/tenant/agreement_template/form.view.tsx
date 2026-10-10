@@ -1,24 +1,16 @@
-import {
-  Button,
-  Field,
-  FileInput,
-  FormLayout,
-  HStack,
-  useToast,
-} from "@astryxdesign/core";
+import { Button, FormLayout, HStack, useToast } from "@astryxdesign/core";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import * as yup from "yup";
 import InputText from "../../../components/form/inputtext.element";
-import TextAreaInput from "../../../components/form/textiareainput.element";
-import UploadInput from "../../../components/form/uploadinput.element";
+import TextEditor from "../../../components/form/texteditor.element";
+import UploadFormField from "../../../components/form/uploadform.element";
 import {
   useCreateAgreementTemplate,
   useUpdateAgreementTemplate,
 } from "../../../hooks/use-agreement-template.api";
-import { useEffect } from "react";
-import UploadFormField from "../../../components/form/uploadform.element";
 
 const formDefaultValues = {
   title: "",
@@ -46,6 +38,7 @@ const Form = ({
     formState: { errors },
     reset,
     handleSubmit,
+    setValue,
     watch,
   } = useForm<AgreementTemplateType>({
     resolver: yupResolver(schema),
@@ -126,11 +119,12 @@ const Form = ({
           control={control}
           error={errors.title}
         />
-        <TextAreaInput
+        <TextEditor
           name="content"
           label="Content"
           control={control}
           error={errors.content}
+          setValue={setValue}
         />
         <UploadFormField
           name="sign_image"
