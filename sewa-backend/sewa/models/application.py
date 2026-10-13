@@ -28,7 +28,6 @@ class Application(models.Model):
     duration = models.IntegerField()
     monthly_lease_rent = models.DecimalField(max_digits=10, decimal_places=2)
     deposit_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    id_file = models.FileField(upload_to=get_unique_file_path)
     status = models.CharField(max_length=3, choices=ApplicationStatus.choices, default=ApplicationStatus.REQUESTED)
     reject_reason = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -3,6 +3,9 @@ from sewa.models import Application, ApplicationStatus, Property
 from sewa.serializers import UserSerializer, PropertySerializer
 from dateutil.relativedelta import relativedelta
 
+from sewa.services.application_service import create_application, update_status
+
+
 class ApplicationSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     requestor_id = serializers.BigIntegerField(read_only=True)
@@ -20,19 +23,9 @@ class ApplicationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         current_user = self.context['user']
+        application = create_application(current_user, validated_data)
 
-        property = Property.objects.get(id=validated_data.get("property_id"))
-
-        obj = Application(**validated_data)
-        obj.requestor = current_user
-        obj.lease_end = validated_data.get("lease_start") + relativedelta(months=validated_data.get("duration"))
-        obj.monthly_lease_rent = property.rental_cost
-        obj.deposit_amount = property.deposit_amount
-        obj.status = ApplicationStatus.REQUESTED
-
-        obj.save()
-
-        return obj
+        return application
 
     def update(self, instance, validated_data):
         current_user = self.context['user']
@@ -44,8 +37,6 @@ class ApplicationSerializer(serializers.ModelSerializer):
         instance.monthly_lease_rent = property.rental_cost
         instance.deposit_amount = property.deposit_amount
 
-        if "id_file" in validated_data:
-            instance.id_file = validated_data.get("id_file")
         instance.save()
 
         return instance
