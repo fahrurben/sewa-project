@@ -39,7 +39,10 @@ from sewa.views import (
     RegencyView,
     logout_view,
     update_profile_view,
+    stripe_webhook,
 )
+
+from sewa.views.create_checkout_session_view import CreateCheckoutSessionView
 
 router = SimpleRouter(trailing_slash=False)
 router.register(r'agreement-templates', AgreementTemplateView, basename='agreement_templates')
@@ -60,6 +63,8 @@ urlpatterns = [
 
     path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/media-upload', ImageUploadView.as_view(), name='media_upload'),
+    path('api/checkout/<int:application_id>', CreateCheckoutSessionView.as_view(), name='checkout'),
+    path('stripe-webhook', stripe_webhook, name='stripe_webhook'),
     path('api/', include(router.urls)),
 ]
 

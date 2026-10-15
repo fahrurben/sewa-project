@@ -1,3 +1,4 @@
+import datetime
 import os
 from typing import Any, Dict
 
@@ -10,7 +11,8 @@ from django.db import transaction
 from rest_framework.exceptions import ValidationError
 
 from rest_framework.exceptions import AuthenticationFailed
-from sewa.models import Property, Application, ApplicationStatus
+from sewa.models import Property, Application, ApplicationStatus, Renter
+from sewa.models.renter import RenterStatus
 
 
 @transaction.atomic
@@ -70,6 +72,59 @@ def send_application_request_email(application):
 
     # Render the HTML template into a string string
     html_content = render_to_string("emails/application_request_template.html", context)
+
+    # Strip HTML tags to create a backup plain text version
+    text_content = strip_tags(html_content)
+
+    # Create the email instance with the plain text version
+    email = EmailMultiAlternatives(
+        subject=subject,
+        body=text_content,
+        from_email=from_email,
+        to=to_email
+    )
+
+    # Attach the HTML alternative version
+    email.attach_alternative(html_content, "text/html")
+
+    # Send the email
+    email.send()
+
+@transaction.atomic
+def create_renter(application: Application) -> bool:
+    current_date = datetime.date.today()
+
+    renter = Renter()
+    renter.application = application
+    renter.renter = application.requestor
+    renter.lease_start = application.lease_start
+    renter.duration = application.duration
+    renter.lease_end = application.lease_end
+    renter.deposit_amount = application.deposit_amount
+    renter.monthly_lease_rent = application.monthly_lease_rent
+    renter.property = application.property
+    renter.status = RenterStatus.CURRENT if current_date >= renter.lease_start else RenterStatus.MOVING_IN
+    renter.save()
+
+    send_payment_success(renter)
+
+    return True
+
+def send_payment_success(renter):
+    noreply_email = os.getenv("NO_REPLY_EMAIL")
+
+    # Set up email metadata
+    subject = f"Payment success for property {renter.property.name}"
+    from_email = noreply_email
+    to_email = [renter.renter.email]
+
+    # Context data to pass into the HTML template
+    context = {
+        "renter": renter,
+    }
+
+    # Render the HTML template into a string string
+    html_content = render_to_string("emails/payment_success_template.html", context)
 
     # Strip HTML tags to create a backup plain text version
     text_content = strip_tags(html_content)

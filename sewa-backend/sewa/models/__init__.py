@@ -6,3 +6,4 @@ from .property import Property, PropertyImage
 from .upload_image_model import UploadImageModel
 from .application import Application, ApplicationStatus
 from .renter import Renter
+from .transaction import TransactionType
