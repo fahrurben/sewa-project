@@ -9,12 +9,17 @@ import RootLayout from "./root.layout";
 import AgreementTemplateCreateView from "../views/tenant/agreement_template/create.view";
 import AgreementTemplateEditView from "../views/tenant/agreement_template/edit.view";
 import ProfileIndexView from "../views/tenant/profile/index.view";
+import Home from "../views/home/home.view";
 
 const routeConfig = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
     children: [
+      {
+        Component: Home,
+        index: true,
+      },
       {
         path: "tenant",
         children: [
