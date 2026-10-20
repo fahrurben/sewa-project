@@ -41,6 +41,21 @@ const useGetProperty = (id?: number | null) => {
   });
 };
 
+const usePropertyDetails = (id?: number | null) => {
+  return useQuery({
+    queryKey: ["getProperty", id],
+    queryFn: async () => {
+      const url = `${API_URL}/properties/${id}/details`;
+
+      const response = await axios.get(url, {
+        withCredentials: true,
+      });
+      return response.data;
+    },
+    enabled: !!id,
+  });
+};
+
 const useUpdateProperty = ({
   onSuccess,
   onError,
@@ -98,4 +113,5 @@ export {
   useDeleteProperty,
   useGetProperty,
   useUpdateProperty,
+  usePropertyDetails,
 };

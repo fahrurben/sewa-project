@@ -10,6 +10,10 @@ import AgreementTemplateCreateView from "../views/tenant/agreement_template/crea
 import AgreementTemplateEditView from "../views/tenant/agreement_template/edit.view";
 import ProfileIndexView from "../views/tenant/profile/index.view";
 import Home from "../views/home/home.view";
+import SignInView from "../views/signin/signin.view";
+import { default as ApplicationListView } from "../views/application/list.view";
+import PropertyDetailsView from "../views/property/propertydetails.view";
+import FrontendLayout from "./frontend.layout";
 
 const routeConfig = createBrowserRouter([
   {
@@ -17,8 +21,22 @@ const routeConfig = createBrowserRouter([
     Component: RootLayout,
     children: [
       {
-        Component: Home,
-        index: true,
+        Component: FrontendLayout,
+        children: [
+          {
+            Component: Home,
+            index: true,
+          },
+          {
+            path: "login",
+            Component: SignInView,
+          },
+          {
+            path: "applications",
+            Component: ApplicationListView,
+          },
+          { path: "property/details/:id", Component: PropertyDetailsView },
+        ],
       },
       {
         path: "tenant",

@@ -16,6 +16,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
     monthly_lease_rent = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, allow_null=True, read_only=True)
     deposit_amount = serializers.DecimalField(max_digits=10, decimal_places=2, required=False, allow_null=True, read_only=True)
     status = serializers.ChoiceField(choices=ApplicationStatus.choices, read_only=True)
+    status_label = serializers.CharField(source='get_status_display', read_only=True)
 
     class Meta:
         model = Application

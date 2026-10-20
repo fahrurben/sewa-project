@@ -1,4 +1,4 @@
-const HeaderNav = () => {
+const HeaderNav = ({ user = null }) => {
   return (
     <div className="flex justify-center w-full border-b-2 border-[#1e1b22] min-h-18">
       <div className="flex justify-between w-[1200px]">
@@ -9,28 +9,32 @@ const HeaderNav = () => {
           <ul className="text-white flex gap-8 font-semi-bold text-md">
             <li>
               <a
-                href="#"
+                href="/"
                 className="block hover:border-b-4 hover:border-[#cf4148] h-18 leading-18"
               >
                 Home
               </a>
             </li>
-            <li>
-              <a
-                href="#"
-                className="block hover:border-b-4 hover:border-[#cf4148] h-18 leading-18"
-              >
-                Applications
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block hover:border-b-4 hover:border-[#cf4148] h-18 leading-18"
-              >
-                Sign in
-              </a>
-            </li>
+            {user && (
+              <li>
+                <a
+                  href="/applications"
+                  className="block hover:border-b-4 hover:border-[#cf4148] h-18 leading-18"
+                >
+                  Applications
+                </a>
+              </li>
+            )}
+            {!user && (
+              <li>
+                <a
+                  href="/login"
+                  className="block hover:border-b-4 hover:border-[#cf4148] h-18 leading-18"
+                >
+                  Sign in
+                </a>
+              </li>
+            )}
           </ul>
           <a
             href="/tenant/login"

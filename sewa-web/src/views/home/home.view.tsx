@@ -5,28 +5,27 @@ import {
   MetadataListItem,
   Skeleton,
   Stack,
-  Theme,
   VStack,
 } from "@astryxdesign/core";
 import { Card } from "@astryxdesign/core/Card";
 import { Heading } from "@astryxdesign/core/Heading";
-import { neutralTheme } from "@astryxdesign/theme-neutral";
-import * as yup from "yup";
-import HeaderNav from "../../components/layout/headernav.element";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useNavigate } from "react-router";
+import * as yup from "yup";
+import { API_URL, MEDIA_BASE_URL, PAGE_SIZE } from "../../common/constant";
+import type { PropertyType } from "../../common/types";
+import InputNumeric from "../../components/form/inputnumeric.element";
+import SelectBox from "../../components/form/selectbox.element";
+import HeaderNav from "../../components/layout/headernav.element";
 import {
   useGetAllProvinceOptions,
   useGetAllRegencyOptions,
 } from "../../hooks/use-lookup.api";
-import SelectBox from "../../components/form/selectbox.element";
-import InputNumeric from "../../components/form/inputnumeric.element";
-import { API_URL, MEDIA_BASE_URL, PAGE_SIZE } from "../../common/constant";
-import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import InfiniteScroll from "react-infinite-scroll-component";
-import type { PropertyType } from "../../common/types";
+import useAuth from "../../hooks/userauthhook";
 
 const schema = yup
   .object({
@@ -40,6 +39,8 @@ const schema = yup
 type PropertyFilterType = yup.InferType<typeof schema>;
 
 const Home = () => {
+  const { user } = useAuth(false);
+
   const {
     control,
     formState: { errors },
@@ -106,123 +107,124 @@ const Home = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#0b0b0d]">
-      <Theme theme={neutralTheme} mode="dark">
-        <HeaderNav />
-        <div className="flex justify-center w-full">
-          <div className="flex justify-between w-[1200px] py-8">
-            <Card className="w-3/12 h-80">
-              <Heading level={3}>Filter</Heading>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <SelectBox
-                  name="province_id"
-                  label="Province"
-                  placeholder="-- Province --"
-                  options={provincesOptions ?? []}
-                  control={control}
-                  error={errors.province_id}
-                />
-                <SelectBox
-                  name="city_id"
-                  label="City"
-                  placeholder="-- City --"
-                  options={regencyOptions ?? []}
-                  control={control}
-                  error={errors.city_id}
-                />
-                <InputNumeric
-                  name="lease_rent_min"
-                  label="Minimum"
-                  control={control}
-                  error={errors.lease_rent_min}
-                />
-                <InputNumeric
-                  name="lease_rent_max"
-                  label="Maximum"
-                  control={control}
-                  error={errors.lease_rent_max}
-                />
-                <HStack gap={2} hAlign="end" className="mt-4">
-                  <Button label="Submit" type="submit" variant="primary" />
-                </HStack>
-              </form>
-            </Card>
-            <div className="w-9/12">
-              <InfiniteScroll
-                key={resetKey}
-                dataLength={items.length}
-                next={fetchMoreData}
-                hasMore={hasMore}
-                loader={
-                  <VStack gap={2} className="w-full mt-8">
-                    <Skeleton className="w-full" height={16} index={0} />
-                    <Skeleton className="w-full" height={16} index={1} />
-                    <Skeleton className="w-full" height={16} index={2} />
-                    <Skeleton className="w-full" height={16} index={3} />
-                    <Skeleton className="w-full" height={16} index={4} />
-                    <Skeleton className="w-full" height={16} index={5} />
-                  </VStack>
-                }
-                className="w-full flex justify-start gap-6 px-6"
-              >
-                {items.map((item: PropertyType) => {
-                  const propertyImage = MEDIA_BASE_URL + item.thumbnail;
+      <HeaderNav user={user} />
+      <div className="flex justify-center w-full">
+        <div className="flex justify-between w-[1200px] py-8">
+          <Card className="w-3/12 h-80">
+            <Heading level={3}>Filter</Heading>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <SelectBox
+                name="province_id"
+                label="Province"
+                placeholder="-- Province --"
+                options={provincesOptions ?? []}
+                control={control}
+                error={errors.province_id}
+              />
+              <SelectBox
+                name="city_id"
+                label="City"
+                placeholder="-- City --"
+                options={regencyOptions ?? []}
+                control={control}
+                error={errors.city_id}
+              />
+              <InputNumeric
+                name="lease_rent_min"
+                label="Minimum"
+                control={control}
+                error={errors.lease_rent_min}
+              />
+              <InputNumeric
+                name="lease_rent_max"
+                label="Maximum"
+                control={control}
+                error={errors.lease_rent_max}
+              />
+              <HStack gap={2} hAlign="end" className="mt-4">
+                <Button label="Submit" type="submit" variant="primary" />
+              </HStack>
+            </form>
+          </Card>
+          <div className="w-9/12">
+            <InfiniteScroll
+              key={resetKey}
+              dataLength={items.length}
+              next={fetchMoreData}
+              hasMore={hasMore}
+              loader={
+                <VStack gap={2} className="w-full mt-8">
+                  <Skeleton className="w-full" height={16} index={0} />
+                  <Skeleton className="w-full" height={16} index={1} />
+                  <Skeleton className="w-full" height={16} index={2} />
+                  <Skeleton className="w-full" height={16} index={3} />
+                  <Skeleton className="w-full" height={16} index={4} />
+                  <Skeleton className="w-full" height={16} index={5} />
+                </VStack>
+              }
+              className="w-full flex justify-start gap-6 px-6"
+            >
+              {items.map((item: PropertyType) => {
+                const propertyImage = MEDIA_BASE_URL + item.thumbnail;
 
-                  const usFormat = new Intl.NumberFormat("en-US", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  });
-                  return (
-                    <Card key={item.id} className="mb-6 h-125">
-                      <a href="#">
-                        <img
-                          src={propertyImage}
-                          alt={item.name}
-                          style={{
-                            width: "100%",
-                            height: "200px",
-                            borderRadius: "8px",
-                          }}
-                        />
-                      </a>
+                const usFormat = new Intl.NumberFormat("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                });
+                return (
+                  <Card key={item.id} className="mb-6 h-125">
+                    <a href={`property/details/${item.id}`}>
+                      <img
+                        src={propertyImage}
+                        alt={item.name}
+                        style={{
+                          width: "100%",
+                          height: "200px",
+                          borderRadius: "8px",
+                        }}
+                      />
+                    </a>
 
-                      <HStack gap={6} hAlign="around">
-                        <Stack direction="vertical" gap={2} className="w-full">
-                          <a href="#" className="text-lg font-bold">
-                            {item.name}
-                          </a>
-                          <MetadataList>
-                            <MetadataListItem label="Rental Cost">
-                              {usFormat.format(item.rental_cost)}
-                            </MetadataListItem>
-                            <MetadataListItem label="Address">
-                              {item.address}
-                            </MetadataListItem>
-                            <MetadataListItem label="Province">
-                              {item.province_name}
-                            </MetadataListItem>
-                            <MetadataListItem label="City">
-                              {item.city_name}
-                            </MetadataListItem>
-                            <MetadataListItem label="Postal Code">
-                              {item.postal_code}
-                            </MetadataListItem>
-                            <MetadataListItem label="Type">
-                              {item.type_label}
-                            </MetadataListItem>
-                            <MetadataListItem label="Furnishing Type">
-                              {item.furnishing_type_label}
-                            </MetadataListItem>
-                          </MetadataList>
-                        </Stack>
-                      </HStack>
-                    </Card>
-                  );
-                })}
-              </InfiniteScroll>
-            </div>
+                    <HStack gap={6} hAlign="around">
+                      <Stack direction="vertical" gap={2} className="w-full">
+                        <a
+                          href={`property/details/${item.id}`}
+                          className="text-lg font-bold"
+                        >
+                          {item.name}
+                        </a>
+                        <MetadataList>
+                          <MetadataListItem label="Rental Cost">
+                            {usFormat.format(item.rental_cost)}
+                          </MetadataListItem>
+                          <MetadataListItem label="Address">
+                            {item.address}
+                          </MetadataListItem>
+                          <MetadataListItem label="Province">
+                            {item.province_name}
+                          </MetadataListItem>
+                          <MetadataListItem label="City">
+                            {item.city_name}
+                          </MetadataListItem>
+                          <MetadataListItem label="Postal Code">
+                            {item.postal_code}
+                          </MetadataListItem>
+                          <MetadataListItem label="Type">
+                            {item.type_label}
+                          </MetadataListItem>
+                          <MetadataListItem label="Furnishing Type">
+                            {item.furnishing_type_label}
+                          </MetadataListItem>
+                        </MetadataList>
+                      </Stack>
+                    </HStack>
+                  </Card>
+                );
+              })}
+            </InfiniteScroll>
           </div>
         </div>
-      </Theme>
+      </div>
     </div>
   );
 };

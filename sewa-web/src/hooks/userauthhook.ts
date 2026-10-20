@@ -13,7 +13,7 @@ const fetchUser = async () => {
   return response.data;
 };
 
-const useAuth = () => {
+const useAuth = (mustRedirect: boolean = true) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -23,10 +23,8 @@ const useAuth = () => {
 
       try {
         user = await fetchUser();
-      } catch (e) {
-        console.log(e);
-      }
-      if (!user) {
+      } catch (e) {}
+      if (!user && mustRedirect) {
         navigate("/tenant/login");
       }
 

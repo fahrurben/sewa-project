@@ -1,8 +1,9 @@
 from rest_framework import viewsets
-from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, AllowAny
 from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.pagination import LimitOffsetPagination
+from django.shortcuts import get_object_or_404
 
 from sewa.models import Property
 from sewa.serializers import PropertySerializer
@@ -39,7 +40,7 @@ class PropertyView(viewsets.ModelViewSet[Property]):
 
         return query_set
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=['get'], permission_classes=[AllowAny])
     def search(self, request):
         query_set = Property.objects.order_by('name')
 
@@ -62,3 +63,10 @@ class PropertyView(viewsets.ModelViewSet[Property]):
 
         serializer = PropertySerializer(page, many=True)
         return paginator.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=['get'], permission_classes=[AllowAny])
+    def details(self, request, pk):
+        property = get_object_or_404(Property, id=pk)
+        serializer = PropertySerializer(instance=property)
+
+        return Response(serializer.data)
