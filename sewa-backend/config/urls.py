@@ -40,6 +40,7 @@ from sewa.views import (
     logout_view,
     update_profile_view,
     stripe_webhook,
+    RenterView,
 )
 
 from sewa.views.create_checkout_session_view import CreateCheckoutSessionView
@@ -50,6 +51,7 @@ router.register(r'properties', PropertyView, basename='properties')
 router.register(r'applications', ApplicationView, basename='applications')
 router.register(r'provinces', ProvinceView, basename='provinces')
 router.register(r'regencies', RegencyView, basename='regencies')
+router.register(r'renters', RenterView, basename='renters')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/email-verification', email_verification_view, name='email_verification'),

@@ -14,6 +14,7 @@ import SignInView from "../views/signin/signin.view";
 import { default as ApplicationListView } from "../views/application/list.view";
 import PropertyDetailsView from "../views/property/propertydetails.view";
 import FrontendLayout from "./frontend.layout";
+import MyRentView from "../views/renter/myrent.view";
 
 const routeConfig = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const routeConfig = createBrowserRouter([
             Component: ApplicationListView,
           },
           { path: "property/details/:id", Component: PropertyDetailsView },
+          {
+            path: "my-rent",
+            Component: MyRentView,
+          },
         ],
       },
       {

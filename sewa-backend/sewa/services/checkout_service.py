@@ -37,8 +37,8 @@ def create_checkout_session(current_user: User, application: Application):
     checkout_session = stripe.checkout.Session.create(
         line_items=line_items,
         mode='payment',  # Use 'subscription' for recurring payments
-        success_url=FRONTEND_BASE_URL + '/success/',
-        cancel_url=FRONTEND_BASE_URL + '/cancel/',
+        success_url=FRONTEND_BASE_URL + '/my-rent?show_success=true',
+        cancel_url=FRONTEND_BASE_URL + '/applications/',
         metadata={
             'transaction_type': TransactionType.DP,
             'transaction_id': application.id,

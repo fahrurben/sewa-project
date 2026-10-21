@@ -16,14 +16,24 @@ const HeaderNav = ({ user = null }) => {
               </a>
             </li>
             {user && (
-              <li>
-                <a
-                  href="/applications"
-                  className="block hover:border-b-4 hover:border-[#cf4148] h-18 leading-18"
-                >
-                  Applications
-                </a>
-              </li>
+              <>
+                <li>
+                  <a
+                    href="/applications"
+                    className="block hover:border-b-4 hover:border-[#cf4148] h-18 leading-18"
+                  >
+                    Applications
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/my-rent"
+                    className="block hover:border-b-4 hover:border-[#cf4148] h-18 leading-18"
+                  >
+                    My Rent
+                  </a>
+                </li>
+              </>
             )}
             {!user && (
               <li>

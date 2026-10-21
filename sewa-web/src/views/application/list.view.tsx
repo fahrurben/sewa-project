@@ -1,17 +1,22 @@
 import {
+  Button,
   Heading,
+  HStack,
+  Item,
   proportional,
   Table,
   toSearchFilters,
   usePowerSearchConfig,
   useTableFiltering,
   useTableFilterState,
+  useToast,
   type PowerSearchFilter,
   type TableColumn,
 } from "@astryxdesign/core";
 import HeaderNav from "../../components/layout/headernav.element";
 import useAuth from "../../hooks/userauthhook";
 import { useGetApplicationList } from "../../hooks/use-application.api";
+import { useCheckoutApplication } from "../../hooks/use-checkout.api";
 
 interface PropertyType extends Record<string, unknown> {
   id: number;
@@ -31,30 +36,17 @@ interface ApplicationType extends Record<string, unknown> {
 
 const fieldDefs = [
   {
-    key: "status_label",
+    key: "status",
     type: "enum",
-    label: "Status Label",
+    label: "Status",
     enumValues: [
-      { value: "Requested", label: "Requested" },
-      { value: "Rejected", label: "Rejected" },
-      { value: "Pending Payment", label: "Pending Payment" },
-      { value: "Paid", label: "Paid" },
+      { value: "REQ", label: "Requested" },
+      { value: "REJ", label: "Rejected" },
+      { value: "PP", label: "Pending Payment" },
+      { value: "PAI", label: "Paid" },
     ],
   },
 ] as const;
-
-const columns: TableColumn<PropertyType>[] = [
-  { key: "property_name", header: "Name", width: proportional(1) },
-  { key: "lease_start", header: "Lease Start", width: proportional(2) },
-  { key: "duration", header: "Duration", width: proportional(2) },
-  { key: "lease_end", header: "Lease End", width: proportional(2) },
-  {
-    key: "status_label",
-    header: "Status",
-    width: proportional(1),
-    filter: "status_label",
-  },
-];
 
 const ListView = () => {
   const { user } = useAuth(false);
@@ -66,6 +58,57 @@ const ListView = () => {
     searchConfig: config,
     variant: "inline",
   });
+
+  const toast = useToast();
+
+  const checkoutMutation = useCheckoutApplication({
+    onSuccess: (data) => {
+      window.location.href = data.checkout_url;
+    },
+    onError: (error) => {
+      const [[firstKey, firstValue]] = Object.entries(error.response.data);
+
+      toast({
+        body: `${firstKey} ${firstValue}`,
+        type: "error",
+        isAutoHide: true,
+        autoHideDuration: 3000,
+      });
+    },
+  });
+
+  const checkoutClicked = (id) => {
+    checkoutMutation.mutate({ id: id });
+  };
+
+  const columns: TableColumn<PropertyType>[] = [
+    { key: "property_name", header: "Name", width: proportional(1) },
+    { key: "lease_start", header: "Lease Start", width: proportional(2) },
+    { key: "duration", header: "Duration", width: proportional(2) },
+    { key: "lease_end", header: "Lease End", width: proportional(2) },
+    {
+      key: "status",
+      header: "Status",
+      width: proportional(1),
+      filter: "status",
+      renderCell: (item) => (
+        <HStack gap={2} align="center">
+          {item.status_label}
+        </HStack>
+      ),
+    },
+    {
+      key: "action",
+      header: "Action",
+      renderCell: (item) => (
+        <HStack key={item.id} gap={2} align="center">
+          {item.status == "PP" && (
+            <Button onClick={() => checkoutClicked(item.id)}>Checkout</Button>
+          )}
+        </HStack>
+      ),
+    },
+  ];
 
   const { data: response } = useGetApplicationList();
 
