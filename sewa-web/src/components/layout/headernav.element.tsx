@@ -2,9 +2,12 @@ const HeaderNav = ({ user = null }) => {
   return (
     <div className="flex justify-center w-full border-b-2 border-[#1e1b22] min-h-18">
       <div className="flex justify-between w-[1200px]">
-        <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl h-18 leading-18">
+        <a
+          href="/"
+          className="text-3xl font-bold tracking-tight text-white sm:text-4xl h-18 leading-18"
+        >
           Sewa
-        </h1>
+        </a>
         <div className="flex">
           <ul className="text-white flex gap-8 font-semi-bold text-md">
             <li>

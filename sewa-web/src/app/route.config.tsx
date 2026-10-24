@@ -15,6 +15,7 @@ import { default as ApplicationListView } from "../views/application/list.view";
 import PropertyDetailsView from "../views/property/propertydetails.view";
 import FrontendLayout from "./frontend.layout";
 import MyRentView from "../views/renter/myrent.view";
+import RegisterView from "../views/register/register.view";
 
 const routeConfig = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const routeConfig = createBrowserRouter([
           {
             path: "my-rent",
             Component: MyRentView,
+          },
+          {
+            path: "register",
+            Component: RegisterView,
           },
         ],
       },

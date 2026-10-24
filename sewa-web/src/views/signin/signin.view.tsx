@@ -95,7 +95,8 @@ const SignInView = () => {
             }
             footer={
               <LayoutFooter hasDivider>
-                <HStack gap={2} hAlign="end">
+                <HStack gap={2} hAlign="between">
+                  <a href="/register">Register</a>
                   <Button label="Submit" type="submit" variant="primary" />
                 </HStack>
               </LayoutFooter>
